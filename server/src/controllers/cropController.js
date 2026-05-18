@@ -19,7 +19,7 @@ export const createCrop = async (req, res) => {
       quantity,
       category,
       location,
-      image,
+      image : req.file ? req.file.path : "",
       farmer: req.user._id,
     });
 

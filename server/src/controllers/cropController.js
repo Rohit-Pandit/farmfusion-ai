@@ -47,19 +47,53 @@ export const createCrop = async (req, res) => {
 
 export const getAllCrops = async (req, res) => {
   try {
-    const crops = await Crop.find()
-      .populate("farmer", "name email")
-      .sort({ createdAt: -1 });
+    
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
 
-      if (!crops) {
-        return res.status(404).json({
-          success: false,
-          message: "No crops found",
-        });
-      }
+    const search = req.query.search || "";
+    const category = req.query.category || "";
+    const location = req.query.location || "";
+
+    
+    const query = {};
+
+    
+    if (search) {
+      query.title = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+
+    
+    if (category) {
+      query.category = category;
+    }
+
+    
+    if (location) {
+      query.location = location;
+    }
+
+    
+    const skip = (page - 1) * limit;
+
+    
+    const crops = await Crop.find(query)
+      .populate("farmer", "name email")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    
+    const totalCrops = await Crop.countDocuments(query);
 
     res.status(200).json({
       success: true,
+      currentPage: page,
+      totalPages: Math.ceil(totalCrops / limit),
+      totalCrops,
       count: crops.length,
       crops,
     });
@@ -182,3 +216,4 @@ export const deleteCrop = async (req, res) => {
     });
   }
 };
+

@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import cookieParser from 'cookie-parser';
 
 import routes from './routes/indexRoutes.js';
+import errorMiddleware from './middleware/errorMiddleware.js';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 
+
 app.use("/api/v1", routes);
 
 app.get("/", (req, res) => {
@@ -23,5 +25,7 @@ app.get("/", (req, res) => {
     message: "FarmFusion API Running",
   });
 });
+
+app.use(errorMiddleware);
 
 export default app;

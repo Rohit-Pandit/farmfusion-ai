@@ -1,8 +1,13 @@
-import React from 'react'
+import React from 'react';
+import MainLayout from '../layouts/MainLayout';
 
 const Marketplace = () => {
   return (
-    <div>Marketplace</div>
+    <MainLayout>
+      <div className="text-4xl font-bold">
+        Crop Marketplace! 🚜
+      </div>
+    </MainLayout>
   )
 }
 

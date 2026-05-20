@@ -1,8 +1,13 @@
-import React from 'react'
+import React from 'react';
+import MainLayout from '../layouts/MainLayout';
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <MainLayout>
+      <div className="text-4xl font-bold">
+        Dashboard
+      </div>
+    </MainLayout>
   )
 }
 

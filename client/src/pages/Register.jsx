@@ -1,8 +1,13 @@
-import React from 'react'
+import React from 'react';
+import MainLayout from '../layouts/MainLayout';
 
 const Register = () => {
   return (
-    <div>Register</div>
+    <MainLayout>
+      <div className="text-4xl font-bold">
+        Register
+      </div>
+    </MainLayout>
   )
 }
 

@@ -2,10 +2,9 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-green-700 text-white shadow-md">
+    <nav className="bg-emerald-700 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         
-        {/* Logo */}
         <Link
           to="/"
           className="text-2xl font-bold tracking-wide"
@@ -13,7 +12,6 @@ const Navbar = () => {
           FarmFusion
         </Link>
 
-        {/* Nav Links */}
         <div className="flex items-center gap-6 text-lg">
           <Link
             to="/"

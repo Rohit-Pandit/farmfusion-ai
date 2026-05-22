@@ -3,7 +3,7 @@ const CropCard = ({ crop }) => {
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
 
       <img
-        src={crop.image}
+        src={crop.image || "https://placehold.co/600x400?text=FarmFusion"}
         alt={crop.title}
         className="w-full h-52 object-cover"
       />

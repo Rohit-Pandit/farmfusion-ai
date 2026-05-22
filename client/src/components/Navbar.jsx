@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
+import React from "react";
+import AuthContext from "../context/AuthContext.js";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const { user, logout } = React.useContext(AuthContext);
+  const navigate = useNavigate();
+
   return (
     <nav className="bg-emerald-700 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -27,12 +33,28 @@ const Navbar = () => {
             Marketplace
           </Link>
 
-          <Link
-            to="/login"
-            className="hover:text-yellow-300 transition"
-          >
-            Login
-          </Link>
+          {user ? (
+            
+            <div className="flex items-center gap-4">
+              <span className="font-medium">Welcome, {user.user.name}</span>
+              <button
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                } }
+                className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-600 transition"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="hover:text-yellow-300 transition"
+            >
+              Login
+            </Link>
+          )}
 
           <Link
             to="/register"

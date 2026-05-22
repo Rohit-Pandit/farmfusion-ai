@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Marketplace from './pages/Marketplace';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ProtectedRoute from './routes/ProtectedRoute.jsx';
 
 import './App.css'
 
@@ -17,7 +18,11 @@ function App() {
 
         <Route path="/" element={<Home />} />
 
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
 
         <Route path="/marketplace" element={<Marketplace />} />
 

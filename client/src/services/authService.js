@@ -1,7 +1,7 @@
 import api from './api.js';
 
 
-const register = async (userData) => {
+const registerUser = async (userData) => {
     try {
 
         const response = await api.post('/auth/register', userData);
@@ -21,4 +21,4 @@ const loginUser = async (credentials) => {
     }   
 };
 
-export { register, loginUser }; 
+export { registerUser, loginUser }; 

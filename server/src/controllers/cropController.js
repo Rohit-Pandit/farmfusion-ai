@@ -1,4 +1,5 @@
 import Crop from "../models/Crop.js";
+import asyncHandler from "../utils/asyncHandler.js";
 
 export const createCrop = async (req, res) => {
   try {
@@ -217,3 +218,12 @@ export const deleteCrop = async (req, res) => {
   }
 };
 
+export const getMyCrops = asyncHandler(async(req,res)=>{
+  const crops = await Crop.find({farmer: req.user._id}).sort({createdAt: -1});
+
+  res.status(200).json({
+    success: true,
+    count: crops.length,
+    crops,
+  });
+});

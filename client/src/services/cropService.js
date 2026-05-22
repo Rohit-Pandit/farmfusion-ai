@@ -14,4 +14,12 @@ export  const createCrop = async (formData) => {
         },
     });
     return response.data;
-}
+};
+
+export const getMyCrops = async () => {
+  const response = await api.get(
+    "/crops/my-crops"
+  );
+
+  return response.data;
+};

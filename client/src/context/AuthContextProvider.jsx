@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -16,6 +17,7 @@ const AuthContextProvider = ({ children }) => {
         localStorage.removeItem("user");
       }
     }
+    setLoading(false);
   }, []);
 
   const login = (userData) => {
@@ -27,7 +29,7 @@ const AuthContextProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

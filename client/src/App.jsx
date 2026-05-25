@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ProtectedRoute from './routes/ProtectedRoute.jsx';
 import CreateCrop from './pages/CreateCrop.jsx';
+import EditCrop from './pages/EditCrop.jsx';
 
 import './App.css'
 
@@ -20,7 +21,7 @@ function App() {
         <Route path="/" element={<Home />} />
 
         <Route path="/dashboard" element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["farmer"]}>
             <Dashboard />
           </ProtectedRoute>
         } />
@@ -32,8 +33,14 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         <Route path="/create-crop" element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["farmer"]}>
             <CreateCrop />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/edit-crop/:id" element={
+          <ProtectedRoute allowedRoles={["farmer"]}>
+            <EditCrop />
           </ProtectedRoute>
         } />
       </Routes>

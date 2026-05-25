@@ -1,17 +1,11 @@
 import Crop from "../models/Crop.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import cloudinary from "../config/cloudinary.js";
 
 export const createCrop = async (req, res) => {
   try {
-    const {
-      title,
-      description,
-      price,
-      quantity,
-      category,
-      location,
-      image,
-    } = req.body;
+    const { title, description, price, quantity, category, location, image } =
+      req.body;
 
     const crop = await Crop.create({
       title,
@@ -20,7 +14,7 @@ export const createCrop = async (req, res) => {
       quantity,
       category,
       location,
-      image : req.file ? req.file.path : "",
+      image: req.file ? req.file.path : "",
       farmer: req.user._id,
     });
 
@@ -29,7 +23,7 @@ export const createCrop = async (req, res) => {
         success: false,
         message: "Failed to create crop",
       });
-    }   
+    }
 
     res.status(201).json({
       success: true,
@@ -48,7 +42,6 @@ export const createCrop = async (req, res) => {
 
 export const getAllCrops = async (req, res) => {
   try {
-    
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 5;
 
@@ -56,10 +49,8 @@ export const getAllCrops = async (req, res) => {
     const category = req.query.category || "";
     const location = req.query.location || "";
 
-    
     const query = {};
 
-    
     if (search) {
       query.title = {
         $regex: search,
@@ -67,27 +58,22 @@ export const getAllCrops = async (req, res) => {
       };
     }
 
-    
     if (category) {
       query.category = category;
     }
 
-    
     if (location) {
       query.location = location;
     }
 
-    
     const skip = (page - 1) * limit;
 
-    
     const crops = await Crop.find(query)
       .populate("farmer", "name email")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
-    
     const totalCrops = await Crop.countDocuments(query);
 
     res.status(200).json({
@@ -112,7 +98,7 @@ export const getSingleCrop = async (req, res) => {
   try {
     const crop = await Crop.findById(req.params.id).populate(
       "farmer",
-      "name email"
+      "name email",
     );
 
     if (!crop) {
@@ -157,14 +143,19 @@ export const updateCrop = async (req, res) => {
       });
     }
 
-    const updatedCrop = await Crop.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+
+      req.body.image = result.secure_url;
+    }
+
+    console.log(req.body);
+    console.log(req.file);
+
+    const updatedCrop = await Crop.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
     res.status(200).json({
       success: true,
@@ -218,8 +209,10 @@ export const deleteCrop = async (req, res) => {
   }
 };
 
-export const getMyCrops = asyncHandler(async(req,res)=>{
-  const crops = await Crop.find({farmer: req.user._id}).sort({createdAt: -1});
+export const getMyCrops = asyncHandler(async (req, res) => {
+  const crops = await Crop.find({ farmer: req.user._id }).sort({
+    createdAt: -1,
+  });
 
   res.status(200).json({
     success: true,

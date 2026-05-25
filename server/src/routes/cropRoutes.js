@@ -18,7 +18,7 @@ const router = express.Router();
 router.get("/", getAllCrops);
 router.get("/my-crops", protect, authorizeRoles("farmer", "admin"), getMyCrops);
 router.get("/:id", getSingleCrop);
-router.put("/:id", protect, authorizeRoles("farmer", "admin"), updateCrop);
+router.put("/:id", protect, authorizeRoles("farmer", "admin"), upload.single("image"),updateCrop);
 router.delete("/:id", protect, authorizeRoles("farmer", "admin"), deleteCrop);
 router.post("/", protect, authorizeRoles("farmer", "admin"), upload.single("image"), createCrop);
 

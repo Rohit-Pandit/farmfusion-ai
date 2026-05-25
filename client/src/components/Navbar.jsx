@@ -23,13 +23,23 @@ const Navbar = () => {
             Marketplace
           </Link>
 
-          <Link to="/dashboard" className="hover:text-yellow-300 transition">
-            Dashboard
-          </Link>
+          {user?.user?.role === "farmer" && (
+            <>
+              <Link
+                to="/dashboard"
+                className="hover:text-yellow-300 transition"
+              >
+                Dashboard
+              </Link>
 
-          <Link to="/create-crop" className="hover:text-yellow-300 transition">
-            Sell Crops
-          </Link>
+              <Link
+                to="/create-crop"
+                className="hover:text-yellow-300 transition"
+              >
+                Sell Crops
+              </Link>
+            </>
+          )}
 
           {user ? (
             <div className="flex items-center gap-4">
@@ -50,15 +60,14 @@ const Navbar = () => {
             </Link>
           )}
 
-     {     !user && (
-      
-          <Link
-            to="/register"
-            className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition"
-          >
-            Register
-          </Link>)
-}
+          {!user && (
+            <Link
+              to="/register"
+              className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition"
+            >
+              Register
+            </Link>
+          )}
         </div>
       </div>
     </nav>

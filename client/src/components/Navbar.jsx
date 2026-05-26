@@ -38,6 +38,12 @@ const Navbar = () => {
               >
                 Sell Crops
               </Link>
+              <Link
+                to="/farmer-orders"
+                className="hover:text-yellow-300 transition"
+              >
+                Orders
+              </Link>
             </>
           )}
 

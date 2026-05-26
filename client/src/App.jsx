@@ -10,6 +10,7 @@ import CreateCrop from "./pages/CreateCrop.jsx";
 import EditCrop from "./pages/EditCrop.jsx";
 import CropDetails from "./pages/CropDetails.jsx";
 import BuyerOrders from "./pages/BuyerOrders.jsx";
+import FarmerOrders from "./pages/FarmerOrders.jsx";
 
 import "./App.css";
 
@@ -62,9 +63,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/farmer-orders"
+          element={
+            <ProtectedRoute allowedRoles={["farmer"]}>
+              <FarmerOrders />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
-
-      <Routes></Routes>
     </BrowserRouter>
   );
 }

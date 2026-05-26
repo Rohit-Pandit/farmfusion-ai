@@ -1,0 +1,95 @@
+import { useEffect, useState } from "react";
+
+import { useParams } from "react-router-dom";
+
+import toast from "react-hot-toast";
+
+import MainLayout from "../layouts/MainLayout.jsx";
+
+import { getSingleCrop } from "../services/cropService.js";
+
+const CropDetails = () => {
+  const { id } = useParams();
+
+  const [crop, setCrop] = useState(null);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCrop = async () => {
+      try {
+        const data = await getSingleCrop(id);
+
+        setCrop(data.crop);
+      } catch (error) {
+        console.error(error);
+
+        toast.error("Failed to load crop");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCrop();
+  }, [id]);
+
+  if (loading) {
+    return <div className="text-center mt-10 text-xl">Loading...</div>;
+  }
+
+  if (!crop) {
+    return <div className="text-center mt-10 text-xl">Crop not found</div>;
+  }
+
+  return (
+    <MainLayout>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white p-8 rounded-xl shadow-md">
+        
+        <div>
+          <img
+            src={crop.image || "https://placehold.co/600x400?text=farmfusion"}
+            alt={crop.title}
+            className="w-full h-[450px] object-cover rounded-xl"
+          />
+        </div>
+
+        
+        <div>
+          <h1 className="text-4xl font-bold mb-4">{crop.title}</h1>
+
+          <p className="text-gray-600 mb-6">{crop.description}</p>
+
+          <div className="space-y-3 text-lg">
+            <p>
+              <span className="font-semibold">Price:</span> ₹{crop.price}
+            </p>
+
+            <p>
+              <span className="font-semibold">Quantity:</span> {crop.quantity}{" "}
+              kg
+            </p>
+
+            <p>
+              <span className="font-semibold">Category:</span> {crop.category}
+            </p>
+
+            <p>
+              <span className="font-semibold">Location:</span> {crop.location}
+            </p>
+
+            <p>
+              <span className="font-semibold">Farmer:</span> {crop.farmer?.name}
+            </p>
+          </div>
+
+          
+          <button className="mt-8 bg-emerald-700 text-white px-8 py-3 rounded-lg hover:bg-emerald-800 transition">
+            Contact Farmer
+          </button>
+        </div>
+      </div>
+    </MainLayout>
+  );
+};
+
+export default CropDetails;

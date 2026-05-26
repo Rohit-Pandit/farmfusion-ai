@@ -1,3 +1,6 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
 const CropCard = ({ crop }) => {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
@@ -55,6 +58,18 @@ const CropCard = ({ crop }) => {
           Farmer: {crop.farmer?.name}
         </div>
       </div>
+      
+      <Link
+        to={`/crops/${crop._id}`}
+        >
+          <button
+    className="w-full mt-4 bg-emerald-700 text-white py-2 rounded-lg hover:bg-emerald-800 transition"
+  >
+    View Details
+  </button>
+      </Link>
+      
+
     </div>
   );
 };

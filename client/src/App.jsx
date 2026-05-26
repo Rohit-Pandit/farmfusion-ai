@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import ProtectedRoute from './routes/ProtectedRoute.jsx';
 import CreateCrop from './pages/CreateCrop.jsx';
 import EditCrop from './pages/EditCrop.jsx';
+import CropDetails from './pages/CropDetails.jsx';
 
 import './App.css'
 
@@ -43,6 +44,10 @@ function App() {
             <EditCrop />
           </ProtectedRoute>
         } />
+      </Routes>
+
+      <Routes>
+        <Route path="/crops/:id" element={<CropDetails />} />
       </Routes>
     </BrowserRouter>
   )

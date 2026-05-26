@@ -11,6 +11,7 @@ import EditCrop from "./pages/EditCrop.jsx";
 import CropDetails from "./pages/CropDetails.jsx";
 import BuyerOrders from "./pages/BuyerOrders.jsx";
 import FarmerOrders from "./pages/FarmerOrders.jsx";
+import Wishlist from "./pages/Wishlist.jsx";
 
 import "./App.css";
 
@@ -68,6 +69,14 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["farmer"]}>
               <FarmerOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/wishlist"
+          element={
+            <ProtectedRoute allowedRoles={["buyer"]}>
+              <Wishlist />
             </ProtectedRoute>
           }
         />

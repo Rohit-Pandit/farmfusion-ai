@@ -27,10 +27,17 @@ const userSchema = new mongoose.Schema(
       enum: ["farmer", "buyer", "admin"],
       default: "farmer",
     },
+
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Crop",
+      },
+    ],
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const User = mongoose.model("User", userSchema);

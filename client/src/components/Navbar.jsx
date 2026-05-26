@@ -48,12 +48,17 @@ const Navbar = () => {
           )}
 
           {user?.user?.role === "buyer" && (
-            <Link
-              to="/buyer-orders"
-              className="hover:text-yellow-300 transition"
-            >
-              My Orders
-            </Link>
+            <>
+              <Link
+                to="/buyer-orders"
+                className="hover:text-yellow-300 transition"
+              >
+                My Orders
+              </Link>
+              <Link to="/wishlist" className="hover:text-yellow-300 transition">
+                Wishlist
+              </Link>
+            </>
           )}
 
           {user ? (

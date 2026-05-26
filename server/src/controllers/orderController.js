@@ -84,4 +84,41 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
   });
 });
 
-export { createOrder, getBuyerOrders, getFarmerOrders, updateOrderStatus };
+const getFarmerAnalytics = asyncHandler(async (req, res) => {
+  const orders = await Order.find({
+    farmer: req.user._id,
+  });
+
+  const totalOrders = orders.length;
+
+  const pendingOrders = orders.filter(
+    (order) => order.status === "pending",
+  ).length;
+
+  const deliveredOrders = orders.filter(
+    (order) => order.status === "delivered",
+  ).length;
+
+  const totalRevenue = orders
+    .filter((order) => order.status === "delivered")
+    .reduce((acc, order) => acc + order.totalPrice, 0);
+
+  res.status(200).json({
+    success: true,
+
+    analytics: {
+      totalOrders,
+      pendingOrders,
+      deliveredOrders,
+      totalRevenue,
+    },
+  });
+});
+
+export {
+  createOrder,
+  getBuyerOrders,
+  getFarmerOrders,
+  updateOrderStatus,
+  getFarmerAnalytics,
+};

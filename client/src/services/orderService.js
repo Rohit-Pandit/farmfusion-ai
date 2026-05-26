@@ -23,3 +23,12 @@ export const updateOrderStatus = async (id, status) => {
 
   return response.data;
 };
+
+export const getFarmerAnalytics =
+  async () => {
+    const response = await api.get(
+      "/orders/analytics"
+    );
+
+    return response.data;
+  };

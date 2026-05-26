@@ -4,35 +4,51 @@ import toast from "react-hot-toast";
 
 import MainLayout from "../layouts/MainLayout.jsx";
 
-import { getFarmerOrders, updateOrderStatus } from "../services/orderService.js";
+import {
+  getFarmerOrders,
+  updateOrderStatus,
+  getFarmerAnalytics,
+} from "../services/orderService.js";
+
+import AnalyticsCards from "../components/AnalyticsCards.jsx";
 
 const FarmerOrders = () => {
   const [orders, setOrders] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const data = await getFarmerOrders();
+  const [analytics, setAnalytics] = useState(null);
 
-        setOrders(data.orders);
-      } catch (error) {
-        console.error(error);
+  const fetchDashboardData = async () => {
+  try {
+    const ordersData =
+      await getFarmerOrders();
 
-        toast.error("Failed to load orders");
-      } finally {
-        setLoading(false);
-      }
-    };
+    const analyticsData =
+      await getFarmerAnalytics();
 
-    fetchOrders();
-  }, []);
+    setOrders(ordersData.orders);
 
+    setAnalytics(
+      analyticsData.analytics
+    );
+  } catch (error) {
+    console.error(error);
+
+    toast.error(
+      "Failed to load orders"
+    );
+  } finally {
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+  fetchDashboardData();
+}, []);
   const handleStatusUpdate = async (id, status) => {
     try {
       await updateOrderStatus(id, status);
-
 
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
@@ -46,6 +62,7 @@ const FarmerOrders = () => {
       );
 
       toast.success(`Order ${status}`);
+      await fetchDashboardData();
     } catch (error) {
       console.error(error);
 
@@ -78,6 +95,9 @@ const FarmerOrders = () => {
 
   return (
     <MainLayout>
+
+      {analytics && <AnalyticsCards analytics={analytics} />}
+
       <h1 className="text-4xl font-bold mb-8">Incoming Orders 🚜</h1>
 
       {orders.length === 0 ? (

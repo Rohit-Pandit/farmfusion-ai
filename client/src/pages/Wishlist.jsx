@@ -6,6 +6,8 @@ import CropCard from "../components/CropCard.jsx";
 
 import { getWishlist } from "../services/userService.js";
 
+import toast from "react-hot-toast";
+
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
 
@@ -15,8 +17,11 @@ const Wishlist = () => {
         const data = await getWishlist();
 
         setWishlist(data.wishlist);
+
       } catch (error) {
         console.error(error);
+        toast.error("Failed to load wishlist");
+
       }
     };
 
@@ -32,7 +37,13 @@ const Wishlist = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {wishlist.map((crop) => (
-            <CropCard key={crop._id} crop={crop} />
+            <CropCard
+              key={crop._id}
+              crop={crop}
+              onWishlistRemove={(id) =>
+                setWishlist((prev) => prev.filter((item) => item._id !== id))
+              }
+            />
           ))}
         </div>
       )}

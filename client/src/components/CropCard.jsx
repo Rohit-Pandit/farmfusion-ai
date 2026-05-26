@@ -1,20 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toggleWishlist } from "../services/userService.js";
 import AuthContext from "../context/AuthContext.js";
 import toast from "react-hot-toast";
 
-const CropCard = ({ crop }) => {
-  const { user } = React.useContext(AuthContext);
+const CropCard = ({ crop, onWishlistRemove }) => {
+  const { user, wishlist, setWishlist } = React.useContext(AuthContext);
+
+  const wishlistedCrop = wishlist.includes(crop._id);
 
   const handleWishlist = async () => {
     try {
       await toggleWishlist(crop._id);
-      toast.success("Wishlist updated!");
-    } catch (error) {
-      console.error("Error toggling wishlist:", error);
 
-      toast.error("Failed to update wishlist. Please try again.");
+      if (wishlistedCrop) {
+        setWishlist((prev) => prev.filter((id) => id !== crop._id));
+
+        toast.success("Removed from wishlist");
+
+        if (onWishlistRemove) {
+          onWishlistRemove(crop._id);
+        }
+      } else {
+        setWishlist((prev) => [...prev, crop._id]);
+
+        toast.success("Added to wishlist");
+      }
+    } catch (error) {
+      console.error(error);
+
+      toast.error("Failed to update wishlist");
     }
   };
 
@@ -57,9 +72,15 @@ const CropCard = ({ crop }) => {
       {user?.user?.role === "buyer" && (
         <button
           onClick={handleWishlist}
-          className="w-full mt-3 border border-red-500 text-red-500 py-2 rounded-lg hover:bg-red-500 hover:text-white transition"
+          className={`w-full mt-3 py-2 rounded-lg transition border
+      ${
+        wishlistedCrop
+          ? "bg-red-400 text-white border-red-500 hover:bg-red-600"
+          : "border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+      }
+    `}
         >
-          ❤️ Wishlist
+          {wishlistedCrop ? "💔 Remove Wishlist" : "💚 Add Wishlist"}
         </button>
       )}
 

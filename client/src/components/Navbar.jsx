@@ -41,6 +41,15 @@ const Navbar = () => {
             </>
           )}
 
+          {user?.user?.role === "buyer" && (
+            <Link
+              to="/buyer-orders"
+              className="hover:text-yellow-300 transition"
+            >
+              My Orders
+            </Link>
+          )}
+
           {user ? (
             <div className="flex items-center gap-4">
               <span className="font-medium">Welcome, {user.user.name}</span>

@@ -1,7 +1,7 @@
 import api from "./api.js";
 
-export const getAllCrops = async (search = "", category = "") => {
-  const response = await api.get(`/crops?search=${search}&category=${category }`);
+export const getAllCrops = async (search = "", category = "", page = 1) => {
+  const response = await api.get(`/crops?search=${search}&category=${category}&page=${page}`);
 
   return response.data;
 };

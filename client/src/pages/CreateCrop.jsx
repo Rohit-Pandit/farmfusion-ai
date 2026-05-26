@@ -10,7 +10,9 @@ import { toast } from "react-hot-toast";
 
 const CreateCrop = () => {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -37,6 +39,7 @@ const CreateCrop = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const cropData = new FormData();
 
       
@@ -69,6 +72,9 @@ const CreateCrop = () => {
       console.error(error);
 
       toast.error("Failed to create crop");
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -157,9 +163,10 @@ const CreateCrop = () => {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-emerald-700 text-white py-3 rounded-lg hover:bg-emerald-800 transition"
           >
-            Create Crop
+            {loading ? "Creating Crop..." : "Create Crop"}
           </button>
         </form>
       </div>

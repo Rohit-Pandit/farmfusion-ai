@@ -8,7 +8,9 @@ import { registerUser } from "../services/authService.js";
 import  AuthContext  from "../context/AuthContext.js";
 
 const Register = () => {
+
   const navigate = useNavigate();
+  const [loading,setLoading] = useState(false);
 
   const { login } = React.useContext(AuthContext);
 
@@ -30,6 +32,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const data = await registerUser(formData);
 
        login(data);
@@ -39,6 +42,9 @@ const Register = () => {
       console.error(error);
 
       alert("Registration failed");
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -95,9 +101,10 @@ const Register = () => {
           
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-emerald-700 text-white py-3 rounded-lg hover:bg-emerald-800 transition"
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
       </div>

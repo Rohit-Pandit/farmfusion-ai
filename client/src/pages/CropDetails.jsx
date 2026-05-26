@@ -27,8 +27,11 @@ const CropDetails = () => {
 
   const [loading, setLoading] = useState(true);
 
+  const [ordering, setOrdering] = useState(false);
+
   const handleOrder = async () => {
     try {
+      setOrdering(true);
       await createOrder({
         cropId: crop._id,
         quantity,
@@ -36,12 +39,14 @@ const CropDetails = () => {
 
       toast.success("Order placed successfully");
       setTimeout(() => {
-  navigate("/buyer-orders");
-}, 1200);
+        navigate("/buyer-orders");
+      }, 1200);
     } catch (error) {
       console.error(error);
 
       toast.error("Failed to place order");
+    } finally {
+      setOrdering(false);
     }
   };
 
@@ -110,7 +115,6 @@ const CropDetails = () => {
             </p>
           </div>
 
-          
           {user && user.user.role === "buyer" && (
             <>
               <div className="mt-6">
@@ -126,9 +130,10 @@ const CropDetails = () => {
               </div>
               <button
                 onClick={handleOrder}
+                disabled={ordering}
                 className="mt-6 bg-emerald-700 text-white px-8 py-3 rounded-lg hover:bg-emerald-800 transition w-full"
               >
-                Place Order
+                {ordering ? "Placing Order..." : "Place Order"}
               </button>
             </>
           )}

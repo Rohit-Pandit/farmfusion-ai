@@ -15,10 +15,12 @@ const Marketplace = () => {
 
   const [category, setCategory] = useState("");
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     const fetchCrops = async () => {
       try {
-        const data = await getAllCrops(search, category);
+        const data = await getAllCrops(search, category, page);
 
         setCrops(data.crops);
       } catch (error) {
@@ -29,7 +31,7 @@ const Marketplace = () => {
     };
 
     fetchCrops();
-  }, [search, category]);
+  }, [search, category, page]);
 
   return (
     <MainLayout>
@@ -75,6 +77,25 @@ const Marketplace = () => {
           ))}
         </div>
       )}
+
+      <div className="flex justify-center gap-4 mt-10">
+        <button
+          disabled={page === 1}
+          onClick={() => setPage((prev) => prev - 1)}
+          className="bg-emerald-700 text-white px-4 py-2 rounded disabled:opacity-50"
+        >
+          Prev
+        </button>
+
+        <span className="text-lg font-semibold">Page {page}</span>
+
+        <button
+          onClick={() => setPage((prev) => prev + 1)}
+          className="bg-emerald-700 text-white px-4 py-2 rounded"
+        >
+          Next
+        </button>
+      </div>
     </MainLayout>
   );
 };

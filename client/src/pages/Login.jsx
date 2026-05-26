@@ -8,9 +8,12 @@ import { loginUser } from "../services/authService.js";
 import AuthContext from "../context/AuthContext.js";
 
 const Login = () => {
+
   const navigate = useNavigate();
 
   const { login } = React.useContext(AuthContext);
+
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -28,6 +31,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const data = await loginUser(formData);
 
       login(data);
@@ -36,6 +40,9 @@ const Login = () => {
     } catch (error) {
       console.error(error);
       alert("Login failed");
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -68,9 +75,10 @@ const Login = () => {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-emerald-700 text-white py-3 rounded-lg hover:bg-emerald-800 transition"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
       </div>

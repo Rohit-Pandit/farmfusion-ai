@@ -8,19 +8,13 @@ from io import BytesIO
 
 import tensorflow as tf
 
+from model.classes import classes
+
 
 # Load trained model
 model = tf.keras.models.load_model(
     "model/model.h5"
 )
-
-classes = [
-    "Healthy",
-    "Early Blight",
-    "Late Blight",
-    "Leaf Mold",
-    "Rust"
-]
 
 
 def predict_disease(
@@ -34,7 +28,7 @@ def predict_disease(
 
     image = Image.open(
         BytesIO(response.content)
-    )
+    ).convert("RGB")
 
     
     image = image.convert("RGB")
@@ -59,7 +53,11 @@ def predict_disease(
         image_array,
         axis=0
     )
-
+    
+    print(
+    "Image Shape:",
+    image_array.shape
+   )
     
     predictions = model.predict(
         image_array

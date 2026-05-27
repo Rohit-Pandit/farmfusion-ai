@@ -23,6 +23,10 @@ const Navbar = () => {
             Marketplace
           </Link>
 
+          <Link to="/disease-detector" className="hover:text-yellow-300 transition">
+            Disease Detector
+          </Link>
+
           {user?.user?.role === "farmer" && (
             <>
               <Link

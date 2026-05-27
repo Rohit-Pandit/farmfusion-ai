@@ -12,6 +12,7 @@ import CropDetails from "./pages/CropDetails.jsx";
 import BuyerOrders from "./pages/BuyerOrders.jsx";
 import FarmerOrders from "./pages/FarmerOrders.jsx";
 import Wishlist from "./pages/Wishlist.jsx";
+import DiseaseDetector from "./pages/DiseaseDetector.jsx";
 
 import "./App.css";
 
@@ -77,6 +78,14 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["buyer"]}>
               <Wishlist />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/disease-detector"
+          element={
+            <ProtectedRoute allowedRoles={["farmer", "buyer"]}>
+              <DiseaseDetector />
             </ProtectedRoute>
           }
         />

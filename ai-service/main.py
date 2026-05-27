@@ -1,13 +1,17 @@
 from fastapi import FastAPI
+
 from pydantic import BaseModel
+
+from model.predict import (
+    predict_disease
+)
 
 app = FastAPI()
 
-
-# Request schema
-class ImageRequest(BaseModel):
+class ImageRequest(
+    BaseModel
+):
     imageUrl: str
-
 
 @app.get("/")
 def home():
@@ -16,23 +20,13 @@ def home():
         "AI Disease Detection API Running"
     }
 
-
 @app.post("/predict")
-async def predict_disease(
+async def predict(
     data: ImageRequest
 ):
 
-    print("Received Data:", data)
+    result = predict_disease(
+            data.imageUrl
+        )
 
-    print("Image URL:", data.imageUrl)
-
-    return {
-        "disease":
-        "Tomato Early Blight",
-
-        "confidence":
-        "94%",
-
-        "treatment":
-        "Use copper fungicide and avoid overwatering."
-    }
+    return result

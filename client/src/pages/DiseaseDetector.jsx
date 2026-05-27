@@ -15,7 +15,6 @@ const DiseaseDetector = () => {
 
   const [result, setResult] = useState(null);
 
-  
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
@@ -26,7 +25,6 @@ const DiseaseDetector = () => {
     setPreview(URL.createObjectURL(file));
   };
 
-  
   const handlePredict = async () => {
     if (!image) {
       toast.error("Please upload image");
@@ -55,6 +53,15 @@ const DiseaseDetector = () => {
     }
   };
 
+  const isHealthy = result.disease.toLowerCase().includes("healthy");
+  const confidenceValue = parseFloat(result.confidence);
+  const confidenceColor =
+    confidenceValue >= 80
+      ? "bg-emerald-600"
+      : confidenceValue >= 50
+        ? "bg-yellow-500"
+        : "bg-red-500";
+
   return (
     <MainLayout>
       <div className="max-w-3xl mx-auto py-10">
@@ -62,7 +69,6 @@ const DiseaseDetector = () => {
           AI Disease Detector 🌿
         </h1>
 
-        
         <div className="bg-white shadow-lg rounded-2xl p-8">
           <input
             type="file"
@@ -71,7 +77,6 @@ const DiseaseDetector = () => {
             className="mb-6"
           />
 
-          
           {preview && (
             <img
               src={preview}
@@ -80,7 +85,6 @@ const DiseaseDetector = () => {
             />
           )}
 
-          
           <button
             onClick={handlePredict}
             disabled={loading}
@@ -89,24 +93,50 @@ const DiseaseDetector = () => {
             {loading ? "Detecting..." : "Detect Disease"}
           </button>
 
-          
           {result && (
-            <div className="mt-8 bg-gray-100 p-6 rounded-xl">
+            <div className="bg-white shadow-lg rounded-2xl p-6 mt-8 border">
               <h2 className="text-2xl font-bold mb-4">Prediction Result</h2>
 
-              <p className="mb-3">
-                <span className="font-semibold">Disease:</span> {result.disease}
-              </p>
+              <div
+                className={`inline-block px-4 py-2 rounded-full font-semibold ${
+                  isHealthy
+                    ? "bg-green-100 text-green-700"
+                    : "bg-red-100 text-red-700"
+                }`}
+              >
+                🌿 {result.disease}
+              </div>
 
-              <p className="mb-3">
-                <span className="font-semibold">Confidence:</span>{" "}
-                {result.confidence}
-              </p>
+              <div className="mt-4">
+                <div className="flex justify-between mb-1">
+                  <span className="text-sm font-medium text-emerald-700">
+                    Confidence
+                  </span>
 
-              <p>
-                <span className="font-semibold">Treatment:</span>{" "}
-                {result.treatment}
-              </p>
+                  <span className="text-sm font-medium text-emerald-700">
+                    {result.confidence}
+                  </span>
+                </div>
+
+                <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div
+                    className={
+                      confidenceColor +
+                      " h-3 rounded-full transition-all duration-500"
+                    }
+                    style={{
+                      width: result.confidence,
+                    }}
+                  ></div>
+                </div>
+              </div>
+              <div className="mt-5 bg-emerald-50 border border-emerald-200 p-4 rounded-xl">
+                <h3 className="font-semibold text-emerald-700 mb-2">
+                  Recommended Treatment
+                </h3>
+
+                <p className="text-gray-700">{result.treatment}</p>
+              </div>
             </div>
           )}
         </div>

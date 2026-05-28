@@ -36,7 +36,7 @@ rich==15.0.0
 setuptools==82.0.1
 six==1.17.0
 starlette==1.1.0
-tensorflow==2.16.1
+tensorflow-cpu==2.16.1
 termcolor==3.3.0
 typing-inspection==0.4.2
 typing_extensions==4.15.0

@@ -1,5 +1,9 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 
 export const predictDisease = asyncHandler(async (req, res) => {
   if (!req.file) {
@@ -19,7 +23,7 @@ export const predictDisease = asyncHandler(async (req, res) => {
     const response = await axios({
       method: "post",
 
-      url: "http://127.0.0.1:8000/predict",
+      url: process.env.AI_SERVICE_URL + "/predict",
 
       data: {
         imageUrl: imageUrl,

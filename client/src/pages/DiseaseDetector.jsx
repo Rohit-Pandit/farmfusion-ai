@@ -55,8 +55,8 @@ const DiseaseDetector = () => {
     }
   };
 
-  const isHealthy = result.disease.toLowerCase().includes("healthy");
-  const confidenceValue = parseFloat(result.confidence);
+  const isHealthy = result?.disease?.toLowerCase().includes("healthy");
+  const confidenceValue = parseFloat(result?.confidence);
   const confidenceColor =
     confidenceValue >= 80
       ? "bg-emerald-600"
@@ -106,7 +106,7 @@ const DiseaseDetector = () => {
                     : "bg-red-100 text-red-700"
                 }`}
               >
-                🌿 {result.disease}
+                🌿 {result?.disease}
               </div>
 
               <div className="mt-4">
@@ -116,7 +116,7 @@ const DiseaseDetector = () => {
                   </span>
 
                   <span className="text-sm font-medium text-emerald-700">
-                    {result.confidence}
+                    {result?.confidence}
                   </span>
                 </div>
 
@@ -127,7 +127,7 @@ const DiseaseDetector = () => {
                       " h-3 rounded-full transition-all duration-500"
                     }
                     style={{
-                      width: result.confidence,
+                      width: result?.confidence,
                     }}
                   ></div>
                 </div>
@@ -137,7 +137,7 @@ const DiseaseDetector = () => {
                   Recommended Treatment
                 </h3>
 
-                <p className="text-gray-700">{result.treatment}</p>
+                <p className="text-gray-700">{result?.treatment}</p>
               </div>
             </div>
           )}

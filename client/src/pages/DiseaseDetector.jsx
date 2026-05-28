@@ -41,6 +41,8 @@ const DiseaseDetector = () => {
 
       const data = await predictDisease(formData);
 
+      console.log("Prediction Data:", data);
+
       setResult(data.prediction);
 
       toast.success("Disease detected");
